@@ -89,9 +89,32 @@
       background-color: #c0392b;
       border-radius: 8px;
       padding: 30px;
-      font-size: 24px;
+      font-size: 20px;
       text-align: center;
       margin-top: 100px;
+    }
+    #error-message input[type="text"] {
+      font-size: 18px;
+      padding: 10px;
+      width: 250px;
+      margin-top: 15px;
+      border-radius: 6px;
+      border: none;
+      outline: none;
+    }
+    #error-message button {
+      font-size: 18px;
+      padding: 10px 20px;
+      margin-left: 10px;
+      border-radius: 6px;
+      border: none;
+      background-color: #2980b9;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    #error-message button:hover {
+      background-color: #1f6391;
     }
   </style>
 </head>
@@ -104,8 +127,11 @@
   </div>
 
   <div id="error-message">
-    <h1>FATAL ERROR</h1>
-    <p>You link does not contain a correct ID. Please put in the correct id and try again.</p>
+    <h1>Link Error.</h1>
+    <h5>Your link does not contain a correct ID. Please enter the correct ID below and try again.</h5>
+    <p>Have a code? Enter it below.</p>
+    <input id="email-id-input" type="text" placeholder="Email ID" />
+    <button id="load-faq-btn">Access FAQ</button>
   </div>
 
   <script>
@@ -114,15 +140,19 @@
       pennerresource1325: [
         {
           question: "It is really distracting to others.",
-          answer: "I understand that watches can be distracting, but on wednsday I wore mine responsibly and only checked the time once. It didn’t distract me or others."
+          answer: "I understand that watches can be distracting, but on Wednesday I wore mine responsibly and only checked the time once. It didn’t distract me or others."
         },
         {
-          question: "It makes noise and can make it dificult for your learning.",
+          question: "It makes noise and can make it difficult for your learning.",
           answer: "I understand your concern but please note: I keep notifications off and only use it to check the time discreetly. I didn’t play games or use any other apps during class."
         },
         {
           question: "Does your smartwatch connect to the school Wi-Fi or network?",
           answer: "No, my watch cannot connect to the guest or main Wi-Fi because it doesn’t support the school’s Wi-Fi types. It only connects via my phone, which is mostly off Wi-Fi during school."
+        },
+        {
+          question: "If needed, can Ken from cyber security review the watch?",
+          answer: "Absolutely, I’m happy to have Ken from cyber security review the watch if needed."
         }
       ],
       testfaq: [
@@ -153,40 +183,56 @@
       });
     }
 
-    // Main logic
-    const emailId = getQueryParam('email-id');
-    const faqContainer = document.getElementById('faq-container');
-    const errorMessage = document.getElementById('error-message');
+    // Main logic to load FAQ by id or show error
+    function loadFaq(id) {
+      const faqContainer = document.getElementById('faq-container');
+      const errorMessage = document.getElementById('error-message');
+      faqContainer.innerHTML = ''; // Clear previous content
 
-    if (!emailId || !faqs[emailId]) {
-      // Show error if no email-id or unknown email-id
-      errorMessage.style.display = 'block';
-      faqContainer.style.display = 'none';
-      alert('No ID specified or unknown ID.');
-    } else {
-      // Render FAQ for this email id
-      faqContainer.style.display = 'block';
-      errorMessage.style.display = 'none';
+      if (!id || !faqs[id]) {
+        errorMessage.style.display = 'block';
+        faqContainer.style.display = 'none';
+      } else {
+        errorMessage.style.display = 'none';
+        faqContainer.style.display = 'block';
 
-      faqs[emailId].forEach(faq => {
-        const faqItem = document.createElement('div');
-        faqItem.className = 'faq-item';
+        faqs[id].forEach(faq => {
+          const faqItem = document.createElement('div');
+          faqItem.className = 'faq-item';
 
-        const q = document.createElement('p');
-        q.className = 'question';
-        q.textContent = faq.question;
+          const q = document.createElement('p');
+          q.className = 'question';
+          q.textContent = faq.question;
 
-        const a = document.createElement('p');
-        a.className = 'answer';
-        a.textContent = faq.answer;
+          const a = document.createElement('p');
+          a.className = 'answer';
+          a.textContent = faq.answer;
 
-        faqItem.appendChild(q);
-        faqItem.appendChild(a);
-        faqContainer.appendChild(faqItem);
-      });
+          faqItem.appendChild(q);
+          faqItem.appendChild(a);
+          faqContainer.appendChild(faqItem);
+        });
 
-      setupFaqToggle();
+        setupFaqToggle();
+      }
     }
+
+    // Initial page load
+    const emailId = getQueryParam('email-id');
+    loadFaq(emailId);
+
+    // Button to load FAQ from input on error page
+    document.getElementById('load-faq-btn').addEventListener('click', () => {
+      const inputId = document.getElementById('email-id-input').value.trim();
+      if (inputId) {
+        // Update the URL without reloading the page for convenience (optional)
+        const newUrl = new URL(window.location.href);
+        newUrl.searchParams.set('email-id', inputId);
+        window.history.replaceState(null, '', newUrl.toString());
+
+        loadFaq(inputId);
+      }
+    });
   </script>
 
 </body>
