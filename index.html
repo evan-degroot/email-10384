@@ -97,30 +97,35 @@
 </head>
 <body>
 
-  <h1>Teacher FAQ - Student Answers</h1>
+  <h1>Email FAQ</h1>
 
   <div id="faq-container">
     <!-- FAQ content will be inserted here -->
   </div>
 
   <div id="error-message">
-    <p>Error: No ID specified in URL. Please provide an <code>?email-id=#######</code> query parameter.</p>
+    <h1>FATAL ERROR</h1>
+    <p>You link does not contain a correct ID. Please put in the correct id and try again.</p>
   </div>
 
   <script>
     // FAQ data for different email-ids
     const faqs = {
-      student1: [
+      pennerresource1325: [
         {
-          question: "Why is wearing your smartwatch not allowed during school hours?",
-          answer: "I understand that watches can be distracting, but today I wore mine responsibly and only checked the time once. It didn’t distract me or others."
+          question: "It is really distracting to others.",
+          answer: "I understand that watches can be distracting, but on wednsday I wore mine responsibly and only checked the time once. It didn’t distract me or others."
         },
         {
-          question: "How do you use your smartwatch during class?",
-          answer: "I keep notifications off and only use it to check the time discreetly. I didn’t play games or use any other apps during class."
+          question: "It makes noise and can make it dificult for your learning.",
+          answer: "I understand your concern but please note: I keep notifications off and only use it to check the time discreetly. I didn’t play games or use any other apps during class."
+        },
+        {
+          question: "Does your smartwatch connect to the school Wi-Fi or network?",
+          answer: "No, my watch cannot connect to the guest or main Wi-Fi because it doesn’t support the school’s Wi-Fi types. It only connects via my phone, which is mostly off Wi-Fi during school."
         }
       ],
-      student2: [
+      testfaq: [
         {
           question: "Does your smartwatch connect to the school Wi-Fi or network?",
           answer: "No, my watch cannot connect to the guest or main Wi-Fi because it doesn’t support the school’s Wi-Fi types. It only connects via my phone, which is mostly off Wi-Fi during school."
